@@ -1,11 +1,10 @@
 const audioContext = new AudioContext()
 
 const renderWaveform = (audioBuffer, width = 600, height = 100) => {
-    const numSamples = width
     const channelDataLeft = [...audioBuffer.getChannelData(0)]
-    const blockSize = Math.floor(audioBuffer.length / numSamples)
+    const blockSize = Math.floor(audioBuffer.length / width)
     const range = size => [...new Array(size).keys()]
-    const filtered = range(numSamples).map((i) => {
+    const filtered = range(width).map((i) => {
         const start = i * blockSize
         const block = channelDataLeft.slice(start, start + blockSize)
         const blockSum = block.reduce((acc, cur) => acc + cur)
@@ -26,14 +25,15 @@ const renderWaveform = (audioBuffer, width = 600, height = 100) => {
         "http://www.w3.org/2000/svg",
         "polyline")
 
-    svg.setAttribute('width', numSamples)
+    svg.setAttribute('width', width)
     svg.setAttribute('height', height)
-    svg.appendChild(polyline)
-    document.body.appendChild(svg)
 
     polyline.setAttribute('points', points)
     polyline.setAttribute('stroke', 'purple')
     polyline.setAttribute('fill', 'none')
+
+    svg.appendChild(polyline)
+    document.body.appendChild(svg)
 }
 
 fetch('audio.m4a')
