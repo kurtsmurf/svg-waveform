@@ -4,7 +4,7 @@ const renderWaveform = (audioBuffer, width = 600, height = 100) => {
     const channelDataLeft = [...audioBuffer.getChannelData(0)]
     const blockSize = Math.floor(audioBuffer.length / width)
     const range = size => [...new Array(size).keys()]
-    const filtered = range(width).map((i) => {
+    const filtered = range(100).map((i) => {
         const start = i * blockSize
         const block = channelDataLeft.slice(start, start + blockSize)
         const blockSum = block.reduce((acc, cur) => acc + cur)
